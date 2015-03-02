@@ -11,7 +11,7 @@ Features
 - Additional Pagination
 - Added highlight to liked comments
 
-Note
-====
+Others
+======
 
 - MIT Licence
