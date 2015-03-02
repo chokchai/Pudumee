@@ -1,0 +1,44 @@
+{
+    "manifest_version": 2,
+
+    "name": "Pudumee",
+    "description": "Pudumee will make your Mee smell better!",
+    "version": "1.0",
+
+    "permissions": [
+        "http://*.madoomeemk.com/",
+        "storage"
+    ],
+
+    "content_scripts": [
+        {
+            "matches": ["http://*.madoomeemk.com/*"],
+            "css": [
+                "css/default.css"
+            ],
+            "js": [
+                "js/libs/jquery-2.1.3.js",
+                "js/utils.js",
+                "js/default.js"
+            ]
+        }
+    ],
+
+    "icons" : {
+        "16": "imgs/pudu-icon-16.png",
+        "48": "imgs/pudu-icon-48.png",
+        "128": "imgs/pudu-icon-128.png"
+    },
+
+    "browser_action": {
+        "default_icon": {
+            "19": "imgs/pudu-icon-19.png",
+            "38": "imgs/pudu-icon-38.png"
+        },
+        "default_title": "Pudumee"
+    },
+
+    "web_accessible_resources" : [
+
+    ]
+}

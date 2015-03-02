@@ -1,0 +1,68 @@
+/*---------------------------------------------------
+    LESS Elements 0.9
+  ---------------------------------------------------
+    A set of useful LESS mixins
+    More info at: http://lesselements.com
+  ---------------------------------------------------*/
+.pudu * {
+  font-family: 'Segoe UI', Tahoma, sans-serif !important;
+  font-size: 100%;
+  font-weight: normal;
+  line-height: 1.3 !important;
+}
+.pudu .v4news {
+  display: none;
+}
+.pudu .ui-pagination-page > a,
+.pudu .ui-pagination-page.state-selected > a {
+  padding-left: 7px;
+  padding-right: 7px;
+}
+.pudu .content .content-head .info {
+  height: 25px;
+}
+.pudu .focus-1 {
+  padding: 10px;
+  margin-bottom: 1.3em;
+  border-width: 1px;
+  border-style: dotted;
+  -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.6);
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.6);
+}
+.pudu .focus-2 {
+  padding: 10px;
+  margin-bottom: 1.3em;
+  border-width: 1px;
+  border-style: dotted;
+  -webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7);
+}
+.pudu .focus-3 {
+  padding: 10px;
+  margin-bottom: 1.3em;
+  border-width: 1px;
+  border-style: solid;
+  -webkit-box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.8);
+  -moz-box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.8);
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.8);
+}
+.pudu .focus-4 {
+  padding: 10px;
+  margin-bottom: 1.3em;
+  border-width: 1px;
+  border-style: solid;
+  -webkit-box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.9);
+  -moz-box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.9);
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.9);
+}
+.pudu .focus-5 {
+  padding: 10px;
+  margin-bottom: 1.3em;
+  border-width: 1px;
+  border-style: solid;
+  -webkit-box-shadow: 0px 0px 40px #000000;
+  -moz-box-shadow: 0px 0px 40px #000000;
+  box-shadow: 0px 0px 40px #000000;
+}
