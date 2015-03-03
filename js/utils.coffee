@@ -1,9 +1,10 @@
 pudu = {}
 
 pudu.defaultSetting =
-  version : '1.0'
+  version: '1.0'
 
-# dependency library wrapers
+#========== STORAGE ==========#
+
 pudu.setLocalStorage = (data, func = ->)->
   chrome.storage.local.set data, func
 
@@ -27,7 +28,8 @@ pudu.isOptionEnable = (optionName, onEnable, onDisable = ->)->
       onDisable()
 
 pudu.getOptionBoolean = (optionName, callback)->
-  pudu.isOptionEnable optionName, (-> callback(true)), (-> callback(false))
+  pudu.isOptionEnable optionName,
+    (-> callback(true)), (-> callback(false))
 
 # Simply compares two string version values.
 #
@@ -50,7 +52,6 @@ pudu.getOptionBoolean = (optionName, callback)->
 # @author Alexey Bass (albass)
 # @since 2011-07-14
 pudu.versionCompare = (left, right)->
-
   if typeof left + typeof right != 'stringstring'
     return false;
 
@@ -68,16 +69,34 @@ pudu.versionCompare = (left, right)->
 
   return 0;
 
+#========== WATCHER ==========#
+
+pudu.watcher = {}
+pudu.watcherLoop = ()->
+  for name, func of pudu.watcher
+    func() # exec each watcher
+  setTimeout pudu.watcherLoop, 1000 # repeat
+
+pudu.watcherElementIterator = ($elements, iterator)->
+  $elements.each ->
+    if not $(@).data('__done__')
+      notDone = iterator($(@), @)
+      $(@).data('__done__', notDone != true) # change result to boolean
+
+#========== INIT ==========#
+
 # init default setting if is first time, then refresh
 pudu.getLocalStorage (items)->
   # if not have setting data yet, just added default
   if items.version is undefined
-    pudu.setLocalStorage pudu.defaultSetting, -> window.location.reload()
+    pudu.setLocalStorage pudu.defaultSetting, ->
+      window.location.reload()
     # if current version is newer, just added only new default setting
   else if pudu.versionCompare(items.version, pudu.defaultSetting.version) == -1
     # assign new version
     items.version = pudu.defaultSetting.version
     # add only not exist
-    pudu.setLocalStorage $.extend(pudu.defaultSetting, items), -> window.location.reload()
+    pudu.setLocalStorage $.extend(pudu.defaultSetting, items), ->
+      window.location.reload()
 
 window.pudu = pudu

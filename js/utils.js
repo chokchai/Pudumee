@@ -78,6 +78,28 @@
     return 0;
   };
 
+  pudu.watcher = {};
+
+  pudu.watcherLoop = function() {
+    var func, name, _ref;
+    _ref = pudu.watcher;
+    for (name in _ref) {
+      func = _ref[name];
+      func();
+    }
+    return setTimeout(pudu.watcherLoop, 1000);
+  };
+
+  pudu.watcherElementIterator = function($elements, iterator) {
+    return $elements.each(function() {
+      var notDone;
+      if (!$(this).data('__done__')) {
+        notDone = iterator($(this), this);
+        return $(this).data('__done__', notDone !== true);
+      }
+    });
+  };
+
   pudu.getLocalStorage(function(items) {
     if (items.version === void 0) {
       return pudu.setLocalStorage(pudu.defaultSetting, function() {

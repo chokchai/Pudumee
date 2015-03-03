@@ -9,23 +9,31 @@ current_url = "" + window.location.href
 
 pages =
   thread: current_url.indexOf('.com/thread/') != -1
+  board: current_url.indexOf('.com/board/') != -1
 
-# $ele
+# $elements
 
-$ele =
+$elements =
   controlBar: $('.posts > .control-bar')
   postHeader: $('.posts .content-head')
-
+  threads: $('.threads .thread')
 
 # watcher
-# [we need watcher because some function in this forum using ajax to update]
+# [we need watcher because some function in this forum using ajax update]
 
-watcher = {}
-watcher_loop = ->
-  for name, func of watcher
-    func() # exec each watcher
-  setTimeout watcher_loop, 1000 # repeat
-watcher_loop() # start watcher
+pudu.watcherLoop() # start watcher
+
+# ========== BOARD ========= #
+
+if pages.board
+
+  pudu.watcher['thread_title_link_to_front_page'] = ->
+
+    pudu.watcherElementIterator $elements.threads, ($ele)->
+      $l = $ele.find('.link.target > a')
+
+      # edit link url
+      $l.attr 'href', $l.attr('href').replace('s/recent/', '/') + '?page=1'
 
 # ========== THREAD ========= #
 
@@ -33,15 +41,15 @@ if pages.thread
 
   #=== add pagination to bottom ===#
 
-  watcher['add_thread_pagination'] = ->
+  pudu.watcher['add_thread_pagination'] = ->
 
-    page = $ele.controlBar.find('.state-selected').text() # page number
+    page = $elements.controlBar.find('.state-selected').text() # page number
 
     # updated ?
-    if $ele.controlBar.data('page') != page
+    if $elements.controlBar.data('page') != page
 
       # clone pagination
-      $ctb = $ele.controlBar.clone()
+      $ctb = $elements.controlBar.clone()
       $ctb.find('> div').remove() # remove all eles except pagination
 
       # wrap with div to prevent js selector
@@ -51,39 +59,34 @@ if pages.thread
       $('.posts > .content').after ctbHtml
 
       # save current page number
-      $ele.controlBar.data 'page', page
+      $elements.controlBar.data 'page', page
 
   #=== add focus to liked comment ===#
 
-  watcher['add_focus_to_comment'] = ->
+  pudu.watcher['add_focus_to_comment'] = ->
 
     # each comment
-    $('.posts .content-head').each ->
+    pudu.watcherElementIterator $('.posts .content-head'), ($ele, that)->
 
-      if not $(@).data('done')
+      # have like
+      if $('.likes a', that).size() > 0
 
-        # have like
-        if $('.likes a', @).size() > 0
+        # like < 10
+        if $('.view-likes', that).size() == 0
+          focus = 1
+        else
+          score = 2 + parseInt $('.view-likes', that).text().replace([' more', ','], '')
+          if score < 10
+            focus = 2
+          else if score < 20
+            focus = 3
+          else if score < 30
+            focus = 4
+          else if score < 40
+            focus = 5
 
-          # like < 10
-          if $('.view-likes', @).size() == 0
-            focus = 1
-          else
-            score = 2 + parseInt $('.view-likes', @).text().replace([' more', ','], '')
-            if score < 10
-              focus = 2
-            else if score < 20
-              focus = 3
-            else if score < 30
-              focus = 4
-            else if score < 40
-              focus = 5
+        # add focus to post
+        $(that).parents('article').addClass('focus-'+focus)
 
-          # add focus to post
-          $(@).parents('article').addClass('focus-'+focus)
-
-          # fix margin
-          $(@).parent().find('.message').css 'margin': 0, 'minHeight': 350
-
-        # mark as done
-        $(@).data 'done', true
+        # fix margin
+        $(that).parent().find('.message').css 'margin': 0, 'minHeight': 285
